@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================
+   Base
+   ================================================ */
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-serif text-body text-txt-l bg-paper;
+  }
+
+  /* Titulares en Archivo */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans;
+  }
+
+  /* Foco visible: contorno dorado, sin gradientes */
+  :focus-visible {
+    outline: 2px solid #E0C285;
+    outline-offset: 2px;
+  }
+
+  /* Selección */
+  ::selection {
+    background-color: #C6A15B;
+    color: #060F1B;
+  }
+
+  /* Área táctil mínima 44px en móvil para elementos interactivos */
+  @media (max-width: 767px) {
+    a, button, [role="button"], input[type="submit"] {
+      min-height: 44px;
+    }
+  }
+}
+
+/* ================================================
+   Componentes reutilizables
+   ================================================ */
+@layer components {
+
+  /* Etiqueta / eyebrow */
+  .eyebrow {
+    @apply font-sans text-eyebrow uppercase tracking-[0.16em];
+  }
+
+  /* Filete de sección — 40px de ancho, gold-ink sobre claro, gold sobre oscuro */
+  .rule {
+    @apply inline-block h-px w-10 bg-gold-ink align-middle mr-3;
+  }
+  .rule-on-dark {
+    @apply bg-gold;
+  }
+
+  /* Marcador de lista: rombo dorado de 5px, alineado a la primera línea */
+  .diamond-list {
+    @apply list-none pl-0;
+  }
+  .diamond-list > li {
+    position: relative;
+    padding-left: 20px;
+  }
+  .diamond-list > li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0.65em;
+    width: 5px;
+    height: 5px;
+    background-color: #C6A15B;
+    transform: rotate(45deg);
+    transform-origin: center;
+  }
+
+  /* Botones — altura 54px, radio 0, sin sombra */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-sans font-semibold text-eyebrow uppercase tracking-[0.16em] px-6 h-[54px] transition-colors;
+  }
+  .btn-primary {
+    @apply bg-gold text-navy-deep hover:bg-gold-br;
+  }
+  .btn-secondary-light {
+    @apply bg-transparent text-txt-l border border-gold-ink hover:bg-gold-ink hover:text-paper;
+  }
+  .btn-secondary-dark {
+    @apply bg-transparent text-txt-d border border-gold hover:bg-gold hover:text-navy-deep;
+  }
+
+  /* Campos de formulario — borde inferior únicamente */
+  .field-label {
+    @apply block eyebrow text-mut-l mb-2;
+  }
+  .field-label-on-dark {
+    @apply text-mut-d;
+  }
+  .field-input {
+    @apply w-full bg-transparent border-0 border-b border-line-l text-txt-l text-body py-3 px-0 placeholder:text-placeholder focus:outline-none focus:border-gold-ink;
+  }
+  .field-input-on-dark {
+    @apply text-txt-d border-line-d placeholder:text-mut-d focus:border-gold;
+  }
+  .field-error {
+    @apply block text-body-sm text-error mt-2;
+  }
+
+  /* Contenedor 1180 */
+  .container-page {
+    @apply mx-auto max-w-container px-5 md:px-8;
+  }
+
+  /* Retícula editorial 340 + 1fr, gap 90 */
+  .grid-editorial {
+    @apply grid gap-editorial;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (min-width: 1024px) {
+    .grid-editorial {
+      grid-template-columns: 340px 1fr;
+    }
+  }
+
+  /* Superficies */
+  .surface-dark { @apply bg-navy text-txt-d; }
+  .surface-darker { @apply bg-navy-deep text-txt-d; }
+  .surface-dark-2 { @apply bg-navy-2 text-txt-d; }
+  .surface-light { @apply bg-paper text-txt-l; }
+
+  /* Padding vertical de sección */
+  .section-y {
+    @apply py-sec-y-mob md:py-sec-y;
+  }
+
+  /* Skip link accesible */
+  .skip-link {
+    @apply absolute left-2 top-2 z-50 -translate-y-16 focus:translate-y-0 bg-gold text-navy-deep px-4 py-2 font-sans font-semibold uppercase text-eyebrow transition-transform;
+  }
+}
+
+/* ================================================
+   Prose para el blog (artículo)
+   ================================================ */
+@layer components {
+  .prose-article {
+    @apply text-txt-l max-w-read;
+  }
+  .prose-article > p {
+    @apply text-article-body my-6;
+  }
+  .prose-article > p:first-of-type {
+    @apply text-lead;
+  }
+  .prose-article > h2 {
+    @apply font-sans font-bold text-h-block mt-12 mb-4;
+  }
+  .prose-article > h3 {
+    @apply font-sans font-bold text-[20px] leading-[1.25] mt-10 mb-3;
+  }
+  .prose-article > ul,
+  .prose-article > ol {
+    @apply my-6 pl-0 list-none;
+  }
+  .prose-article > ul > li,
+  .prose-article > ol > li {
+    position: relative;
+    padding-left: 20px;
+    margin: 0.5rem 0;
+    font-size: 17.5px;
+    line-height: 1.78;
+  }
+  .prose-article > ul > li::before,
+  .prose-article > ol > li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0.7em;
+    width: 5px;
+    height: 5px;
+    background-color: #C6A15B;
+    transform: rotate(45deg);
+  }
+  .prose-article > blockquote {
+    @apply border-l-2 border-gold-ink pl-6 my-8 italic text-lead;
+  }
+  .prose-article a {
+    @apply text-gold-txt underline decoration-1 underline-offset-2 hover:text-gold-ink;
+  }
+  .prose-article code {
+    @apply font-mono text-[0.95em] bg-line-l/40 px-1 py-0.5;
+  }
+  .prose-article pre {
+    @apply overflow-x-auto my-6 p-4 bg-navy text-txt-d text-body-sm;
+  }
+  .prose-article pre code {
+    @apply bg-transparent p-0;
+  }
+  .prose-article strong { @apply font-semibold; }
+  .prose-article em { @apply italic; }
+}
