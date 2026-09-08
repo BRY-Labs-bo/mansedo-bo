@@ -28,6 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="es-BO"
       className={`${archivo.variable} ${sourceSerif.variable} ${cormorant.variable}`}
+      // Extensiones del navegador (p.ej. Scribe, Grammarly) inyectan atributos en
+      // <html>/<body> antes de que React hidrate. Sin esto, React reporta un mismatch.
+      suppressHydrationWarning
     >
       <body>
         <a href="#contenido" className="skip-link">Saltar al contenido</a>
