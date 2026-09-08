@@ -119,7 +119,7 @@ El dominio está registrado en **Namecheap**. El hosting compartido de Namecheap
 
 Ver la lista final entregada al terminar la implementación (Fase 8). Los principales:
 
-- Texto legal de Política de Privacidad (hoy: placeholder visible).
+- **Política de Privacidad**: existe un texto base preparado según normativa boliviana (Constitución arts. 21.2 y 130; Ley N° 164 arts. 54–56) en `src/app/(site)/politica-de-privacidad/page.tsx`. **Requiere revisión y validación del equipo legal del cliente** antes de considerarse definitiva, especialmente por operar en sector regulado (juego). Actualizar `UPDATED_AT` con la fecha de la versión aprobada.
 - Confirmación de cuál teléfono va a WhatsApp (default: 70611882).
 - Confirmación de la tipografía del wordmark (hoy: Cormorant Garamond como aproximación).
 - Cuenta Resend + dominio verificado.
