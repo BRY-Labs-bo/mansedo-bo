@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { archivo, sourceSerif, cormorant } from "@/lib/fonts";
 import { site } from "@/config/site";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { WhatsappFab } from "@/components/whatsapp-fab";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,7 +34,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body>
         <a href="#contenido" className="skip-link">Saltar al contenido</a>
+        <SiteHeader />
         {children}
+        <SiteFooter />
+        <WhatsappFab />
       </body>
     </html>
   );
