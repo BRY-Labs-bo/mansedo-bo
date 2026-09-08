@@ -86,7 +86,7 @@
 
   /* Botones — altura 54px, radio 0, sin sombra */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 font-sans font-semibold text-eyebrow uppercase tracking-[0.16em] px-6 h-[54px] transition-colors;
+    @apply inline-flex items-center justify-center gap-2 font-sans font-semibold text-eyebrow uppercase tracking-[0.16em] px-6 h-[54px] whitespace-nowrap transition-colors;
   }
   .btn-primary {
     @apply bg-gold text-navy-deep hover:bg-gold-br;

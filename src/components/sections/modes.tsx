@@ -24,10 +24,10 @@ export function SectionModes() {
         >
           Modalidades de juego en las que intervenimos
         </h2>
-        <ul className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-y-8 gap-x-6">
+        <ul className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-y-10 gap-x-6">
           {modes.map(({ label, Icon }) => (
-            <li key={label} className="flex flex-col items-center text-center gap-3">
-              <Icon className="text-gold-br" />
+            <li key={label} className="flex flex-col items-center text-center gap-4">
+              <Icon className="text-gold-br w-14 h-14" />
               <span className="font-sans uppercase text-eyebrow tracking-[0.16em] text-txt-d">
                 {label}
               </span>

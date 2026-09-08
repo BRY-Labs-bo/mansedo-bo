@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { PostCard } from "@/components/blog/post-card";
+import { PostCover } from "@/components/blog/post-cover";
 import { formatDate } from "@/lib/date";
 import { site } from "@/config/site";
 
@@ -125,8 +126,14 @@ export default async function BlogListPage({ searchParams }: { searchParams: Sea
           {/* Destacado (sólo en página 1 sin filtro) */}
           {featured && !activeCategory && page === 1 && (
             <article className="grid md:grid-cols-2 border border-line-l bg-surface mb-12">
-              <div className="bg-navy-deep aspect-[16/11] md:aspect-auto flex items-start justify-start p-5">
-                <span className="inline-block bg-gold text-navy-deep px-3 py-1 font-sans uppercase text-eyebrow tracking-[0.16em]">
+              <div className="relative">
+                <PostCover
+                  src={featured.coverImage}
+                  alt={featured.title}
+                  aspect="3/2"
+                  priority
+                />
+                <span className="absolute top-3 left-3 md:top-4 md:left-4 z-10 bg-gold text-navy-deep px-3 py-1 font-sans uppercase text-eyebrow tracking-[0.16em]">
                   Destacado
                 </span>
               </div>
@@ -163,6 +170,7 @@ export default async function BlogListPage({ searchParams }: { searchParams: Sea
                     publishedAt={p.publishedAt}
                     title={p.title}
                     excerpt={p.excerpt}
+                    coverImage={p.coverImage}
                     variant="light"
                   />
                 </li>

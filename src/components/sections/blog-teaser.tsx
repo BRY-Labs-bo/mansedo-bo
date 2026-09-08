@@ -1,39 +1,19 @@
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import { PostCard } from "@/components/blog/post-card";
 
-// Placeholder: en Fase 4 estos vendrán de la DB (últimos 3 PUBLISHED).
-type TeaserPost = {
-  category: string;
-  date: string;
-  title: string;
-  excerpt: string;
-  href: string;
-};
+// Ahora consulta las 3 últimas publicaciones PUBLISHED. Si no hay DB o no hay
+// posts publicados, no rompe el render de la home: retorna null y la sección
+// se omite (mejor a mostrar tarjetas placeholder desactualizadas).
+export async function SectionBlogTeaser() {
+  let posts: Awaited<ReturnType<typeof loadTeasers>> = [];
+  try {
+    posts = await loadTeasers();
+  } catch {
+    posts = [];
+  }
+  if (posts.length === 0) return null;
 
-const teasers: TeaserPost[] = [
-  {
-    category: "Regulación",
-    date: "[FECHA]",
-    title: "Marco regulatorio de los juegos de azar en Bolivia",
-    excerpt: "Condiciones normativas, autorizaciones y obligaciones de un proyecto de juego.",
-    href: "/blog",
-  },
-  {
-    category: "Juego responsable",
-    date: "[FECHA]",
-    title: "Cómo estructurar un programa de prevención de la ludopatía",
-    excerpt: "Componentes mínimos, responsables internos y evidencia documental exigible.",
-    href: "/blog",
-  },
-  {
-    category: "Tributario y aduanero",
-    date: "[FECHA]",
-    title: "Importación de máquinas de juego: clasificación arancelaria",
-    excerpt: "Dónde se concentran las observaciones aduaneras y cómo anticiparlas.",
-    href: "/blog",
-  },
-];
-
-export function SectionBlogTeaser() {
   return (
     <section className="surface-dark section-y" aria-labelledby="blog-title">
       <div className="container-page">
@@ -63,26 +43,30 @@ export function SectionBlogTeaser() {
         </div>
 
         <ul className="mt-12 grid gap-6 md:grid-cols-3">
-          {teasers.map((post) => (
-            <li key={post.title}>
-              <Link href={post.href} className="group block h-full">
-                <div className="aspect-[16/10] bg-navy-deep border border-line-d flex items-center justify-center">
-                  <span className="eyebrow text-mut-d">[ Imagen referencial ]</span>
-                </div>
-                <div className="pt-5">
-                  <p className="eyebrow text-gold">
-                    {post.category} · {post.date}
-                  </p>
-                  <h3 className="mt-3 font-sans font-bold text-[19px] leading-[1.25] text-txt-d group-hover:text-gold-br">
-                    {post.title}
-                  </h3>
-                  <p className="mt-3 text-body-sm text-mut-d">{post.excerpt}</p>
-                </div>
-              </Link>
+          {posts.map((p) => (
+            <li key={p.id}>
+              <PostCard
+                href={`/blog/${p.slug}`}
+                category={p.category.name}
+                publishedAt={p.publishedAt}
+                title={p.title}
+                excerpt={p.excerpt}
+                coverImage={p.coverImage}
+                variant="dark"
+              />
             </li>
           ))}
         </ul>
       </div>
     </section>
   );
+}
+
+function loadTeasers() {
+  return prisma.post.findMany({
+    where: { status: "PUBLISHED" },
+    include: { category: true },
+    orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+    take: 3,
+  });
 }

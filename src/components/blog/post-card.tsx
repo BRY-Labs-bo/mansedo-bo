@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { formatDate } from "@/lib/date";
+import { PostCover } from "@/components/blog/post-cover";
 
 type Props = {
   href: string;
@@ -7,17 +8,24 @@ type Props = {
   publishedAt: Date | null;
   title: string;
   excerpt: string;
+  coverImage?: string | null;
   variant?: "dark" | "light";
 };
 
-export function PostCard({ href, category, publishedAt, title, excerpt, variant = "light" }: Props) {
+export function PostCard({
+  href,
+  category,
+  publishedAt,
+  title,
+  excerpt,
+  coverImage,
+  variant = "light",
+}: Props) {
   const isDark = variant === "dark";
   return (
     <article className={isDark ? "bg-navy border border-line-d" : "bg-surface border border-line-l"}>
       <Link href={href} className="group block h-full">
-        <div className="aspect-[16/10] bg-navy-deep border-b border-line-d flex items-center justify-center">
-          <span className="eyebrow text-mut-d">[ Imagen referencial ]</span>
-        </div>
+        <PostCover src={coverImage} alt={title} aspect="16/10" />
         <div className="p-5 md:p-6">
           <p className={`eyebrow ${isDark ? "text-gold" : "text-gold-txt"}`}>
             {category} · {publishedAt ? formatDate(publishedAt) : "[FECHA]"}

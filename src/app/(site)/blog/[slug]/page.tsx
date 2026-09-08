@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { renderMarkdown } from "@/lib/markdown";
 import { formatDate, readingTime } from "@/lib/date";
 import { PostCard } from "@/components/blog/post-card";
+import { PostCover } from "@/components/blog/post-cover";
 import { site } from "@/config/site";
 
 export const dynamic = "force-dynamic";
@@ -89,11 +90,14 @@ export default async function BlogArticlePage({ params }: { params: Params }) {
       </section>
 
       {/* Cover */}
-      <section aria-hidden="true" className="bg-paper">
+      <section className="bg-paper">
         <div className="container-page pt-10 md:pt-14">
-          <div className="aspect-[16/8] bg-navy-deep border border-line-d flex items-center justify-center">
-            <span className="eyebrow text-mut-d">[ Imagen principal del artículo ]</span>
-          </div>
+          <PostCover
+            src={post.coverImage}
+            alt={post.title}
+            aspect="16/8"
+            priority
+          />
         </div>
       </section>
 
@@ -152,6 +156,7 @@ export default async function BlogArticlePage({ params }: { params: Params }) {
                     publishedAt={r.publishedAt}
                     title={r.title}
                     excerpt={r.excerpt}
+                    coverImage={r.coverImage}
                     variant="light"
                   />
                 </li>
