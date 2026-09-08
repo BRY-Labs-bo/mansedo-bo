@@ -34,3 +34,6 @@ prisma/*.db-journal
 
 # tsbuild
 *.tsbuildinfo
+
+# artefactos de verificación visual (regenerables con scripts/visual-check.mjs)
+screenshots/

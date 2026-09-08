@@ -47,8 +47,8 @@ export function SiteHeader() {
           <Isologo variant="dark" className="h-8 md:h-9 w-auto" />
         </Link>
 
-        {/* Nav desktop */}
-        <nav aria-label="Principal" className="hidden md:block">
+        {/* Nav desktop (lg+ para evitar overflow en tablet 768) */}
+        <nav aria-label="Principal" className="hidden lg:block">
           <ul className="flex items-center gap-8">
             {NAV.map((item) => (
               <li key={item.href}>
@@ -74,8 +74,8 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        {/* Nav móvil con <details> nativo (sin JS) */}
-        <details className="md:hidden group">
+        {/* Nav móvil/tablet con <details> nativo (sin JS) */}
+        <details className="lg:hidden group">
           <summary
             aria-label="Abrir menú"
             className="list-none inline-flex items-center justify-center h-11 w-11 text-txt-d cursor-pointer marker:hidden [&::-webkit-details-marker]:hidden"
