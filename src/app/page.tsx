@@ -1,21 +1,21 @@
+import { SectionHero } from "@/components/sections/hero";
+import { SectionModes } from "@/components/sections/modes";
+import { SectionAbout } from "@/components/sections/about";
+import { SectionServices } from "@/components/sections/services";
+import { SectionCtaBanner } from "@/components/sections/cta-banner";
+import { SectionBlogTeaser } from "@/components/sections/blog-teaser";
+import { SectionContact } from "@/components/sections/contact";
+
 export default function HomePage() {
   return (
     <main id="contenido">
-      <section className="surface-light section-y">
-        <div className="container-page">
-          <p className="eyebrow text-gold-ink">
-            <span className="rule" aria-hidden="true" />
-            Fase 2 · Layout
-          </p>
-          <h1 className="font-sans font-extrabold text-display-2 md:text-display-1 mt-4 text-txt-l">
-            Cabecera, pie y ritmo de sección
-          </h1>
-          <p className="text-lead mt-6 max-w-read text-mut-l">
-            La home real se compone en la Fase 3. Este placeholder verifica el layout base,
-            el header oscuro, el pie, el FAB móvil de WhatsApp y el skip-link.
-          </p>
-        </div>
-      </section>
+      <SectionHero />
+      <SectionModes />
+      <SectionAbout />
+      <SectionServices />
+      <SectionCtaBanner />
+      <SectionBlogTeaser />
+      <SectionContact />
     </main>
   );
 }
