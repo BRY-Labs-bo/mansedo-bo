@@ -1,76 +1,140 @@
-// Reinterpretación libre de la ilustración del PDF (Board 1):
-// ruleta central, fichas apiladas, naipes en abanico y trayectoria de
-// apuesta deportiva. Trazos en gold-br sobre navy. Sin sombras ni gradientes.
+// Ilustración del hero. Interpretación libre del PDF (Board 1):
+// ruleta grande con segmentos + cruz central, naipes con pica visible,
+// fichas apiladas y trayectoria de apuesta deportiva. Trazos gold-ink
+// sobre navy, sin sombras ni gradientes.
 
 type Props = { className?: string };
 
+const STROKE = "#9A7530";   // gold-ink — trazos más apagados como en el PDF
+const ACCENT = "#C6A15B";   // gold — puntos y bolita destacada
+
 export function HeroIllustration({ className }: Props) {
+  // 36 segmentos exteriores (como una ruleta real)
+  const segments = Array.from({ length: 36 }, (_, i) => {
+    const a = (i * Math.PI * 2) / 36;
+    const x1 = Math.cos(a) * 178;
+    const y1 = Math.sin(a) * 178;
+    const x2 = Math.cos(a) * 200;
+    const y2 = Math.sin(a) * 200;
+    return <line key={`seg-${i}`} x1={x1} y1={y1} x2={x2} y2={y2} />;
+  });
+
+  // 12 radios internos entre el anillo medio y el aspa
+  const spokes = Array.from({ length: 12 }, (_, i) => {
+    const a = (i * Math.PI * 2) / 12;
+    const x1 = Math.cos(a) * 60;
+    const y1 = Math.sin(a) * 60;
+    const x2 = Math.cos(a) * 140;
+    const y2 = Math.sin(a) * 140;
+    return <line key={`sp-${i}`} x1={x1} y1={y1} x2={x2} y2={y2} opacity="0.55" />;
+  });
+
   return (
     <svg
-      viewBox="0 0 480 380"
+      viewBox="0 0 620 500"
       className={className}
       role="img"
       aria-label="Ilustración: ruleta, fichas, naipes y trayectoria de apuesta deportiva"
     >
       <title>Elementos de la industria del juego</title>
-      <g fill="none" stroke="#E0C285" strokeWidth="1.1" strokeLinecap="square" strokeLinejoin="miter">
-        {/* Ruleta */}
-        <g transform="translate(310 130)">
-          <circle cx="0" cy="0" r="120" opacity="0.28" />
-          <circle cx="0" cy="0" r="102" opacity="0.5" />
-          <circle cx="0" cy="0" r="84" />
-          <circle cx="0" cy="0" r="58" opacity="0.7" />
-          <circle cx="0" cy="0" r="30" />
-          <circle cx="0" cy="0" r="6" fill="#E0C285" />
-          {/* Radios */}
-          {Array.from({ length: 12 }).map((_, i) => {
-            const a = (i * Math.PI) / 6;
-            const x1 = Math.cos(a) * 30;
-            const y1 = Math.sin(a) * 30;
-            const x2 = Math.cos(a) * 84;
-            const y2 = Math.sin(a) * 84;
-            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} opacity="0.55" />;
-          })}
-          {/* Bolita */}
-          <circle cx="70" cy="-46" r="4" fill="#E0C285" stroke="none" />
+
+      <g
+        fill="none"
+        stroke={STROKE}
+        strokeWidth="1"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+      >
+        {/* Trayectoria punteada al fondo */}
+        <path
+          d="M 20 460 Q 160 350 280 380 T 560 260"
+          strokeDasharray="3 6"
+          opacity="0.55"
+        />
+        {/* Puntos y flecha final de la trayectoria */}
+        <circle cx="20"  cy="460" r="3" fill={ACCENT} stroke="none" />
+        <circle cx="280" cy="380" r="3" fill={ACCENT} stroke="none" />
+        <circle cx="560" cy="260" r="4" fill={ACCENT} stroke="none" />
+        <path d="M 550 252 L 560 260 L 550 268" />
+
+        {/* Ruleta grande, centrada-derecha */}
+        <g transform="translate(400 220)">
+          {/* Anillos externos */}
+          <circle r="200" opacity="0.35" />
+          <circle r="178" />
+          {segments}
+          {/* Anillo intermedio */}
+          <circle r="140" opacity="0.7" />
+          {spokes}
+          {/* Círculo interior con la cruz */}
+          <circle r="60" />
+          <line x1="-60" y1="0" x2="60" y2="0" />
+          <line x1="0" y1="-60" x2="0" y2="60" />
+          {/* Núcleo */}
+          <circle r="18" />
+          <circle r="6" fill={ACCENT} stroke="none" />
+          {/* Bolita "jugadora" */}
+          <circle cx="130" cy="-95" r="5" fill={ACCENT} stroke="none" />
         </g>
 
-        {/* Fichas apiladas (abajo-izquierda) */}
-        <g transform="translate(70 260)">
-          <ellipse cx="0" cy="0" rx="46" ry="12" />
-          <ellipse cx="0" cy="-8" rx="46" ry="12" />
-          <ellipse cx="0" cy="-16" rx="46" ry="12" />
-          <ellipse cx="0" cy="-24" rx="46" ry="12" />
-          <line x1="-46" y1="-24" x2="-46" y2="0" />
-          <line x1="46" y1="-24" x2="46" y2="0" />
-          <ellipse cx="0" cy="-24" rx="30" ry="8" opacity="0.6" />
-        </g>
-
-        {/* Naipes en abanico (arriba-izquierda) */}
-        <g transform="translate(120 90) rotate(-8)">
-          <rect x="-40" y="-52" width="60" height="88" transform="rotate(-14)" opacity="0.6" />
-          <rect x="-30" y="-52" width="60" height="88" transform="rotate(-4)" opacity="0.8" />
-          <rect x="-20" y="-52" width="60" height="88" transform="rotate(6)" />
-          {/* Pica dentro del naipe frontal */}
-          <g transform="translate(10 -8) rotate(6)">
-            <path d="M0 -18 C 10 -6, 16 4, 8 10 C 2 14, -2 14, -8 10 C -16 4, -10 -6, 0 -18 Z" opacity="0.85" />
-            <path d="M-4 10 L 4 10 L 2 18 L -2 18 Z" opacity="0.85" />
+        {/* Naipes en abanico, abajo del centro-derecha */}
+        <g transform="translate(300 400)">
+          {/* Naipe trasero */}
+          <rect
+            x="-30"
+            y="-70"
+            width="80"
+            height="115"
+            transform="rotate(-14)"
+            opacity="0.5"
+          />
+          {/* Naipe medio */}
+          <rect
+            x="-20"
+            y="-70"
+            width="80"
+            height="115"
+            transform="rotate(-4)"
+            opacity="0.75"
+          />
+          {/* Naipe frontal (con pica dentro) */}
+          <g transform="rotate(8)">
+            <rect x="-10" y="-70" width="80" height="115" />
+            {/* Pica centrada dentro del naipe frontal */}
+            <g transform="translate(30 -12)">
+              <path
+                d="
+                  M 0 -22
+                  C 14 -8, 22 4, 12 14
+                  C 6 18, 2 18, 0 16
+                  C -2 18, -6 18, -12 14
+                  C -22 4, -14 -8, 0 -22 Z
+                "
+                fill={STROKE}
+                stroke="none"
+                opacity="0.9"
+              />
+              <path
+                d="M -6 14 L 6 14 L 3 24 L -3 24 Z"
+                fill={STROKE}
+                stroke="none"
+                opacity="0.9"
+              />
+            </g>
           </g>
         </g>
 
-        {/* Trayectoria de apuesta deportiva */}
-        <g>
-          <path
-            d="M20 340 Q 140 200 260 300 T 460 250"
-            strokeDasharray="3 5"
-            opacity="0.8"
-          />
-          {/* Puntos de la trayectoria */}
-          <circle cx="20" cy="340" r="3" fill="#E0C285" stroke="none" />
-          <circle cx="260" cy="300" r="3" fill="#E0C285" stroke="none" />
-          <circle cx="460" cy="250" r="3" fill="#E0C285" stroke="none" />
-          {/* Flecha final */}
-          <path d="M452 244 L 460 250 L 452 256" />
+        {/* Fichas apiladas, abajo del centro-izquierda */}
+        <g transform="translate(200 420)">
+          <ellipse cx="0" cy="0"   rx="50" ry="12" />
+          <ellipse cx="0" cy="-8"  rx="50" ry="12" />
+          <ellipse cx="0" cy="-16" rx="50" ry="12" />
+          <ellipse cx="0" cy="-24" rx="50" ry="12" />
+          {/* Costados de la pila */}
+          <line x1="-50" y1="-24" x2="-50" y2="0" />
+          <line x1="50"  y1="-24" x2="50"  y2="0" />
+          {/* Borde interior de la ficha superior */}
+          <ellipse cx="0" cy="-24" rx="34" ry="8" opacity="0.6" />
         </g>
       </g>
     </svg>
