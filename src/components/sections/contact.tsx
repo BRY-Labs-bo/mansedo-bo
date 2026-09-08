@@ -1,4 +1,5 @@
 import { site, whatsappUrl } from "@/config/site";
+import { ContactForm } from "@/components/contact-form";
 
 function IconWhatsApp() {
   return (
@@ -8,117 +9,6 @@ function IconWhatsApp() {
         fill="currentColor"
       />
     </svg>
-  );
-}
-
-// UI del formulario (Fase 3). El wiring del Server Action llega en Fase 5.
-function ContactFormShell() {
-  return (
-    <form
-      action="#"
-      method="post"
-      className="bg-surface border border-line-l p-6 md:p-8"
-      aria-label="Formulario de contacto"
-    >
-      <p className="eyebrow text-gold-ink">
-        <span className="rule" aria-hidden="true" />
-        Formulario de contacto
-      </p>
-
-      <div className="mt-6 grid gap-5 md:grid-cols-2">
-        <div>
-          <label htmlFor="cf-nombre" className="field-label">
-            Nombre completo *
-          </label>
-          <input
-            id="cf-nombre"
-            name="nombre"
-            type="text"
-            required
-            placeholder="Escriba su nombre completo"
-            className="field-input"
-          />
-        </div>
-        <div>
-          <label htmlFor="cf-correo" className="field-label">
-            Correo electrónico *
-          </label>
-          <input
-            id="cf-correo"
-            name="correo"
-            type="email"
-            required
-            placeholder="Escriba su correo electrónico"
-            className="field-input"
-          />
-        </div>
-        <div>
-          <label htmlFor="cf-telefono" className="field-label">
-            Teléfono / WhatsApp
-          </label>
-          <input
-            id="cf-telefono"
-            name="telefono"
-            type="tel"
-            placeholder="Escriba su número de contacto"
-            className="field-input"
-          />
-        </div>
-        <div>
-          <label htmlFor="cf-empresa" className="field-label">
-            Empresa
-          </label>
-          <input
-            id="cf-empresa"
-            name="empresa"
-            type="text"
-            placeholder="Indique el nombre de su empresa"
-            className="field-input"
-          />
-        </div>
-        <div className="md:col-span-2">
-          <label htmlFor="cf-asunto" className="field-label">
-            Asunto *
-          </label>
-          <input
-            id="cf-asunto"
-            name="asunto"
-            type="text"
-            required
-            placeholder="Indique brevemente el motivo de su consulta"
-            className="field-input"
-          />
-        </div>
-        <div className="md:col-span-2">
-          <label htmlFor="cf-mensaje" className="field-label">
-            Mensaje *
-          </label>
-          <textarea
-            id="cf-mensaje"
-            name="mensaje"
-            rows={5}
-            required
-            placeholder="Describa su requerimiento o consulta"
-            className="field-input resize-y"
-          />
-        </div>
-      </div>
-
-      <label className="mt-6 flex items-start gap-3 text-body-sm text-txt-l">
-        <input type="checkbox" name="acepta" required className="mt-1" />
-        <span>
-          He leído y acepto la{" "}
-          <a href="/politica-de-privacidad" className="text-gold-txt underline underline-offset-2">
-            Política de Privacidad
-          </a>
-          .
-        </span>
-      </label>
-
-      <button type="submit" className="btn btn-primary mt-6 w-full md:w-auto">
-        Enviar consulta
-      </button>
-    </form>
   );
 }
 
@@ -176,7 +66,7 @@ export function SectionContact() {
           </div>
 
           <div>
-            <ContactFormShell />
+            <ContactForm />
           </div>
         </div>
       </div>
