@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Category, Post } from "@prisma/client";
 import { renderMarkdown } from "@/lib/markdown";
+import { CoverUploader } from "@/app/admin/posts/cover-uploader";
 
 type Props = {
   action: (formData: FormData) => void | Promise<void>;
@@ -92,7 +93,13 @@ export async function PostForm({
           />
         </div>
         <div>
-          <label htmlFor="pf-cover" className="field-label">URL de imagen de portada (opcional)</label>
+          <p className="field-label mb-3">Imagen de portada</p>
+          <CoverUploader initialAssetId={post?.coverAssetId ?? null} />
+        </div>
+        <div>
+          <label htmlFor="pf-cover" className="field-label">
+            URL externa de imagen (opcional — sólo si no subís archivo)
+          </label>
           <input
             id="pf-cover"
             name="coverImage"
@@ -101,6 +108,10 @@ export async function PostForm({
             className="field-input"
             placeholder="https://…"
           />
+          <p className="mt-2 text-body-sm text-mut-l">
+            Si hay imagen subida arriba, se usa esa. La URL sirve como respaldo o para
+            enlazar imágenes ya alojadas en un CDN externo.
+          </p>
         </div>
         <div>
           <label htmlFor="pf-content" className="field-label">

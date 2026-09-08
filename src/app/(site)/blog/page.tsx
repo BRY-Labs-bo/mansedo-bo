@@ -128,6 +128,7 @@ export default async function BlogListPage({ searchParams }: { searchParams: Sea
             <article className="grid md:grid-cols-2 border border-line-l bg-surface mb-12">
               <div className="relative">
                 <PostCover
+                  assetId={featured.coverAssetId}
                   src={featured.coverImage}
                   alt={featured.title}
                   aspect="3/2"
@@ -171,6 +172,7 @@ export default async function BlogListPage({ searchParams }: { searchParams: Sea
                     title={p.title}
                     excerpt={p.excerpt}
                     coverImage={p.coverImage}
+                    coverAssetId={p.coverAssetId}
                     variant="light"
                   />
                 </li>

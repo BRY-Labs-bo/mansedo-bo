@@ -93,6 +93,7 @@ export default async function BlogArticlePage({ params }: { params: Params }) {
       <section className="bg-paper">
         <div className="container-page pt-10 md:pt-14">
           <PostCover
+            assetId={post.coverAssetId}
             src={post.coverImage}
             alt={post.title}
             aspect="16/8"
@@ -157,6 +158,7 @@ export default async function BlogArticlePage({ params }: { params: Params }) {
                     title={r.title}
                     excerpt={r.excerpt}
                     coverImage={r.coverImage}
+                    coverAssetId={r.coverAssetId}
                     variant="light"
                   />
                 </li>

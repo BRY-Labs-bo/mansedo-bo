@@ -9,6 +9,7 @@ type Props = {
   title: string;
   excerpt: string;
   coverImage?: string | null;
+  coverAssetId?: string | null;
   variant?: "dark" | "light";
 };
 
@@ -19,13 +20,14 @@ export function PostCard({
   title,
   excerpt,
   coverImage,
+  coverAssetId,
   variant = "light",
 }: Props) {
   const isDark = variant === "dark";
   return (
     <article className={isDark ? "bg-navy border border-line-d" : "bg-surface border border-line-l"}>
       <Link href={href} className="group block h-full">
-        <PostCover src={coverImage} alt={title} aspect="16/10" />
+        <PostCover assetId={coverAssetId} src={coverImage} alt={title} aspect="16/10" />
         <div className="p-5 md:p-6">
           <p className={`eyebrow ${isDark ? "text-gold" : "text-gold-txt"}`}>
             {category} · {publishedAt ? formatDate(publishedAt) : "[FECHA]"}

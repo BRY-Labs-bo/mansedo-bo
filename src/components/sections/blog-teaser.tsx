@@ -52,6 +52,7 @@ export async function SectionBlogTeaser() {
                 title={p.title}
                 excerpt={p.excerpt}
                 coverImage={p.coverImage}
+                coverAssetId={p.coverAssetId}
                 variant="dark"
               />
             </li>

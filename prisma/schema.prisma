@@ -30,7 +30,13 @@ model Post {
   title       String
   excerpt     String
   content     String     @db.Text
+  // URL externa opcional (legacy). Se mantiene por si el cliente quiere
+  // referenciar una imagen ya alojada en un CDN.
   coverImage  String?
+  // Imagen alojada dentro de la propia DB (recomendado): al subir se
+  // optimiza con sharp y se sirve por /api/media/[id] con cache inmutable.
+  coverAssetId String?
+  coverAsset   MediaAsset? @relation("PostCover", fields: [coverAssetId], references: [id], onDelete: SetNull)
   author      String
   status      PostStatus @default(DRAFT)
   featured    Boolean    @default(false)
@@ -44,6 +50,22 @@ model Post {
   @@index([status, publishedAt])
   @@index([categoryId])
   @@map("posts")
+}
+
+model MediaAsset {
+  id           String   @id @default(cuid())
+  // Binario de la imagen ya optimizada (WebP por defecto).
+  data         Bytes
+  mimeType     String
+  width        Int
+  height       Int
+  bytes        Int
+  originalName String?
+  createdAt    DateTime @default(now())
+
+  posts Post[] @relation("PostCover")
+
+  @@map("media_assets")
 }
 
 model ContactSubmission {
