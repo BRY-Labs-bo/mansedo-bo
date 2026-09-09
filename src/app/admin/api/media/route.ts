@@ -7,6 +7,9 @@ import { processImage, storeAsset, MediaError } from "@/lib/media";
 // para que un descuido de rutas no habilite un uploader anónimo.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+// sharp puede tardar unos segundos con imágenes grandes; damos margen a la
+// función serverless para procesar sin timeout.
+export const maxDuration = 30;
 
 export async function POST(req: Request) {
   const session = await getSession();

@@ -4,7 +4,10 @@ import { prisma } from "@/lib/prisma";
 // Configuración del pipeline de optimización.
 const MAX_WIDTH = 1600;      // ancho máximo — imagen se reescala manteniendo aspect
 const WEBP_QUALITY = 82;     // calidad WebP — buen balance tamaño/calidad
-const MAX_INPUT_BYTES = 12 * 1024 * 1024; // 12 MB de archivo original permitido
+// 4 MB: por debajo del límite de payload de las functions serverless de Vercel
+// (~4.5 MB). Imágenes reales optimizadas rara vez superan este tope; para
+// fotos originales gigantes conviene redimensionarlas antes de subir.
+const MAX_INPUT_BYTES = 4 * 1024 * 1024;
 
 const ACCEPTED_MIMES = new Set([
   "image/jpeg",
