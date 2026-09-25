@@ -31,7 +31,7 @@ function IconWhatsApp() {
 const NAV = [
   { href: "/#nosotros", label: "Nosotros" },
   { href: "/#servicios", label: "Servicios" },
-  { href: "/blog", label: "Blog" },
+  { href: "/#blog", label: "Blog" },
   { href: "/#contacto", label: "Contacto" },
 ];
 

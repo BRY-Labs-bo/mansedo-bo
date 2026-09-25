@@ -15,7 +15,11 @@ export async function SectionBlogTeaser() {
   if (posts.length === 0) return null;
 
   return (
-    <section className="surface-dark section-y" aria-labelledby="blog-title">
+    <section
+      id="blog"
+      className="surface-dark section-y scroll-mt-24"
+      aria-labelledby="blog-title"
+    >
       <div className="container-page">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>

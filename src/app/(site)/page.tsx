@@ -12,6 +12,13 @@ export const metadata: Metadata = {
   alternates: { canonical: `${site.url}/` },
 };
 
+// La home muestra los 3 últimos posts publicados en el teaser del blog.
+// Sin esta línea, Next puede prerenderar la home como estática al build y
+// dejar los teasers congelados hasta el próximo deploy. force-dynamic hace
+// que la home se re-genere en cada request contra Neon — costo trivial
+// para el tráfico esperado y siempre refleja el último estado publicado.
+export const dynamic = "force-dynamic";
+
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
