@@ -2,13 +2,13 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsappFab } from "@/components/whatsapp-fab";
 
-// Layout de las rutas públicas en español (default, sin prefijo).
-export default function SiteLayoutEs({ children }: { children: React.ReactNode }) {
+// Layout de las rutas públicas en inglés (/en/*).
+export default function SiteLayoutEn({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <SiteHeader lang="es" />
+      <SiteHeader lang="en" />
       {children}
-      <SiteFooter lang="es" />
+      <SiteFooter lang="en" />
       <WhatsappFab />
     </>
   );

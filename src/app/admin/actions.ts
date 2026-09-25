@@ -69,6 +69,10 @@ const PostSchema = z.object({
   slug: z.string().trim().max(120).optional().or(z.literal("")),
   excerpt: z.string().trim().min(10, "El resumen es obligatorio.").max(500),
   content: z.string().min(10, "El contenido es obligatorio."),
+  // Versiones en inglés opcionales — si están vacías, el sitio /en cae a ES.
+  titleEn: z.string().trim().max(200).optional().or(z.literal("")),
+  excerptEn: z.string().trim().max(500).optional().or(z.literal("")),
+  contentEn: z.string().optional().or(z.literal("")),
   coverImage: z.string().trim().max(500).optional().or(z.literal("")),
   coverAssetId: z.string().trim().max(40).optional().or(z.literal("")),
   categoryId: z.string().min(1, "Elegí una categoría."),
@@ -84,6 +88,9 @@ export async function createPostAction(formData: FormData) {
     slug: formData.get("slug"),
     excerpt: formData.get("excerpt"),
     content: formData.get("content"),
+    titleEn: formData.get("titleEn"),
+    excerptEn: formData.get("excerptEn"),
+    contentEn: formData.get("contentEn"),
     coverImage: formData.get("coverImage"),
     coverAssetId: formData.get("coverAssetId"),
     categoryId: formData.get("categoryId"),
@@ -92,7 +99,6 @@ export async function createPostAction(formData: FormData) {
     featured: formData.get("featured") ?? "",
   });
   if (!parsed.success) {
-    // Redirigimos con mensaje simple. La UI ya valida required en HTML.
     const msg = parsed.error.issues[0]?.message ?? "Datos inválidos.";
     redirect(`/admin/posts/new?error=${encodeURIComponent(msg)}`);
   }
@@ -107,6 +113,9 @@ export async function createPostAction(formData: FormData) {
       slug,
       excerpt: d.excerpt,
       content: d.content,
+      titleEn: d.titleEn || null,
+      excerptEn: d.excerptEn || null,
+      contentEn: d.contentEn || null,
       coverImage: d.coverImage || null,
       coverAssetId: d.coverAssetId || null,
       categoryId: d.categoryId,
@@ -128,6 +137,9 @@ export async function updatePostAction(id: string, formData: FormData) {
     slug: formData.get("slug"),
     excerpt: formData.get("excerpt"),
     content: formData.get("content"),
+    titleEn: formData.get("titleEn"),
+    excerptEn: formData.get("excerptEn"),
+    contentEn: formData.get("contentEn"),
     coverImage: formData.get("coverImage"),
     coverAssetId: formData.get("coverAssetId"),
     categoryId: formData.get("categoryId"),
@@ -157,6 +169,9 @@ export async function updatePostAction(id: string, formData: FormData) {
       slug,
       excerpt: d.excerpt,
       content: d.content,
+      titleEn: d.titleEn || null,
+      excerptEn: d.excerptEn || null,
+      contentEn: d.contentEn || null,
       coverImage: d.coverImage || null,
       coverAssetId: d.coverAssetId || null,
       categoryId: d.categoryId,

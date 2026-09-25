@@ -9,13 +9,13 @@ import { SectionContact } from "@/components/sections/contact";
 import { site } from "@/config/site";
 import { getDictionary } from "@/i18n/dictionaries";
 
-const LANG = "es";
+const LANG = "en";
 
 export const metadata: Metadata = {
   title: getDictionary(LANG).meta.siteTitle,
   description: getDictionary(LANG).meta.siteDescription,
   alternates: {
-    canonical: `${site.url}/`,
+    canonical: `${site.url}/en`,
     languages: {
       es: `${site.url}/`,
       en: `${site.url}/en`,
@@ -23,16 +23,13 @@ export const metadata: Metadata = {
   },
 };
 
-// La home muestra los 3 últimos posts publicados en el teaser del blog.
-// Sin esta línea, Next puede prerenderar la home como estática al build y
-// dejar los teasers congelados hasta el próximo deploy.
 export const dynamic = "force-dynamic";
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: site.name,
-  url: site.url,
+  url: `${site.url}/en`,
   email: site.contact.email,
   telephone: site.contact.phones,
   address: {
@@ -45,7 +42,7 @@ const organizationJsonLd = {
   slogan: site.tagline,
 } as const;
 
-export default function HomePage() {
+export default function HomePageEn() {
   return (
     <>
       <script

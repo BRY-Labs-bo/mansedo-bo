@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Isologo } from "@/components/isologo";
 import { site, whatsappUrl } from "@/config/site";
+import { getDictionary } from "@/i18n/dictionaries";
+import { href, type Locale } from "@/i18n/config";
 
 function IconWhatsApp() {
   return (
@@ -13,25 +15,22 @@ function IconWhatsApp() {
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ lang }: { lang: Locale }) {
+  const t = getDictionary(lang).footer;
   const year = new Date().getFullYear();
   return (
     <footer className="surface-darker text-txt-d border-t border-line-d">
       <div className="container-page py-16 md:py-20">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,1fr)]">
-          {/* Marca */}
           <div>
             <Isologo variant="dark" className="h-10 w-auto" />
-            <p className="mt-6 text-body-sm text-mut-d max-w-sm">
-              {site.tagline}
-            </p>
+            <p className="mt-6 text-body-sm text-mut-d max-w-sm">{t.tagline}</p>
           </div>
 
-          {/* Oficina */}
           <div>
             <p className="eyebrow text-gold">
               <span className="rule rule-on-dark" aria-hidden="true" />
-              Oficina
+              {t.officeLabel}
             </p>
             <address className="not-italic mt-4 text-body-sm leading-relaxed">
               {site.address.street}
@@ -50,20 +49,16 @@ export function SiteFooter() {
                 {site.contact.email}
               </a>
               <br />
-              <a
-                href={site.url}
-                className="text-gold hover:text-gold-br"
-              >
+              <a href={site.url} className="text-gold hover:text-gold-br">
                 www.mansedoconsulting.com
               </a>
             </address>
           </div>
 
-          {/* Atención directa */}
           <div>
             <p className="eyebrow text-gold">
               <span className="rule rule-on-dark" aria-hidden="true" />
-              Atención directa
+              {t.attentionLabel}
             </p>
             <a
               href={whatsappUrl()}
@@ -72,18 +67,20 @@ export function SiteFooter() {
               className="btn btn-secondary-dark mt-4 w-full md:w-auto"
             >
               <IconWhatsApp />
-              <span>Contactar por WhatsApp</span>
+              <span>{t.whatsappCta}</span>
             </a>
           </div>
         </div>
 
         <div className="mt-14 pt-6 border-t border-line-d flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-body-sm text-mut-d">
-          <p>© {year} {site.name}. Todos los derechos reservados.</p>
+          <p>
+            © {year} {site.name}. {t.copyright}
+          </p>
           <Link
-            href="/politica-de-privacidad"
+            href={href("/politica-de-privacidad", lang)}
             className="text-mut-d hover:text-gold-br"
           >
-            Política de Privacidad
+            {t.privacyPolicy}
           </Link>
         </div>
       </div>

@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { PostCard } from "@/components/blog/post-card";
+import { getDictionary } from "@/i18n/dictionaries";
+import { href, type Locale } from "@/i18n/config";
 
-// Ahora consulta las 3 últimas publicaciones PUBLISHED. Si no hay DB o no hay
-// posts publicados, no rompe el render de la home: retorna null y la sección
-// se omite (mejor a mostrar tarjetas placeholder desactualizadas).
-export async function SectionBlogTeaser() {
+// Consulta los 3 últimos posts PUBLISHED. Si la DB falla o no hay contenido,
+// no rompe el render: retorna null y la sección se omite.
+export async function SectionBlogTeaser({ lang }: { lang: Locale }) {
+  const t = getDictionary(lang).blogTeaser;
   let posts: Awaited<ReturnType<typeof loadTeasers>> = [];
   try {
     posts = await loadTeasers();
@@ -25,42 +27,44 @@ export async function SectionBlogTeaser() {
           <div>
             <p className="eyebrow text-gold">
               <span className="rule rule-on-dark" aria-hidden="true" />
-              Blog
+              {t.eyebrow}
             </p>
             <h2
               id="blog-title"
               className="font-sans font-extrabold text-display-2 leading-[1.05] mt-4 text-txt-d"
             >
-              ANÁLISIS Y NOVEDADES
+              {t.title}
             </h2>
-            <p className="mt-4 text-body text-mut-d max-w-[640px]">
-              Noticias, novedades regulatorias, análisis técnicos y estudios
-              especializados sobre lotería, juegos de azar y sorteos.
-            </p>
+            <p className="mt-4 text-body text-mut-d max-w-[640px]">{t.lead}</p>
           </div>
           <Link
-            href="/blog"
+            href={href("/blog", lang)}
             className="font-sans uppercase text-eyebrow tracking-[0.16em] text-gold hover:text-gold-br"
           >
-            Ver todas las publicaciones →
+            {t.seeAll}
           </Link>
         </div>
 
         <ul className="mt-12 grid gap-6 md:grid-cols-3">
-          {posts.map((p) => (
-            <li key={p.id}>
-              <PostCard
-                href={`/blog/${p.slug}`}
-                category={p.category.name}
-                publishedAt={p.publishedAt}
-                title={p.title}
-                excerpt={p.excerpt}
-                coverImage={p.coverImage}
-                coverAssetId={p.coverAssetId}
-                variant="dark"
-              />
-            </li>
-          ))}
+          {posts.map((p) => {
+            const title = lang === "en" && p.titleEn ? p.titleEn : p.title;
+            const excerpt = lang === "en" && p.excerptEn ? p.excerptEn : p.excerpt;
+            return (
+              <li key={p.id}>
+                <PostCard
+                  href={href(`/blog/${p.slug}`, lang)}
+                  category={p.category.name}
+                  publishedAt={p.publishedAt}
+                  title={title}
+                  excerpt={excerpt}
+                  coverImage={p.coverImage}
+                  coverAssetId={p.coverAssetId}
+                  variant="dark"
+                  lang={lang}
+                />
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>

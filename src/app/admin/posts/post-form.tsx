@@ -81,6 +81,22 @@ export async function PostForm({
             />
           </div>
         </div>
+        <div className="grid gap-5 md:grid-cols-2">
+          <div>
+            <label htmlFor="pf-title-en" className="field-label">Título (EN) — opcional</label>
+            <input
+              id="pf-title-en"
+              name="titleEn"
+              type="text"
+              defaultValue={post?.titleEn ?? ""}
+              className="field-input"
+              placeholder="English title"
+            />
+          </div>
+          <div className="md:pt-8 text-body-sm text-mut-l">
+            Si dejás vacíos los campos en inglés, el sitio /en muestra la versión en español con un aviso.
+          </div>
+        </div>
         <div>
           <label htmlFor="pf-excerpt" className="field-label">Resumen *</label>
           <textarea
@@ -90,6 +106,17 @@ export async function PostForm({
             defaultValue={post?.excerpt ?? ""}
             required
             className="field-input resize-y"
+          />
+        </div>
+        <div>
+          <label htmlFor="pf-excerpt-en" className="field-label">Resumen (EN) — opcional</label>
+          <textarea
+            id="pf-excerpt-en"
+            name="excerptEn"
+            rows={2}
+            defaultValue={post?.excerptEn ?? ""}
+            className="field-input resize-y"
+            placeholder="English excerpt"
           />
         </div>
         <div>
@@ -124,6 +151,19 @@ export async function PostForm({
             defaultValue={post?.content ?? ""}
             required
             className="field-input resize-y font-mono text-body-sm"
+          />
+        </div>
+        <div>
+          <label htmlFor="pf-content-en" className="field-label">
+            Contenido en inglés (Markdown) — opcional
+          </label>
+          <textarea
+            id="pf-content-en"
+            name="contentEn"
+            rows={12}
+            defaultValue={post?.contentEn ?? ""}
+            className="field-input resize-y font-mono text-body-sm"
+            placeholder="English content in Markdown"
           />
         </div>
         <div className="grid gap-5 md:grid-cols-2 items-end">

@@ -30,6 +30,11 @@ model Post {
   title       String
   excerpt     String
   content     String     @db.Text
+  // Versiones opcionales en inglés. Si están vacías, el sitio /en muestra
+  // la versión en español con un aviso "Available in Spanish only".
+  titleEn     String?
+  excerptEn   String?
+  contentEn   String?    @db.Text
   // URL externa opcional (legacy). Se mantiene por si el cliente quiere
   // referenciar una imagen ya alojada en un CDN.
   coverImage  String?

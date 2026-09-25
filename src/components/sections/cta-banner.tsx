@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { getDictionary } from "@/i18n/dictionaries";
+import { href, type Locale } from "@/i18n/config";
 
-export function SectionCtaBanner() {
+export function SectionCtaBanner({ lang }: { lang: Locale }) {
+  const t = getDictionary(lang).ctaBanner;
   return (
     <section className="surface-darker border-y border-line-d" aria-labelledby="cta-title">
       <div className="container-page py-14 md:py-20">
@@ -10,18 +13,14 @@ export function SectionCtaBanner() {
               id="cta-title"
               className="font-sans font-extrabold text-[28px] md:text-[36px] leading-[1.1] text-txt-d"
             >
-              ¿Tiene un proyecto en evaluación
-              <br className="hidden md:block" />
-              {" "}o una operación en marcha?
+              {t.title[0]}
+              <br className="hidden md:block" /> {t.title[1]}
             </h2>
-            <p className="mt-4 text-body text-mut-d max-w-[560px]">
-              Comuníquese con uno de nuestros especialistas para recibir asesoramiento
-              según las necesidades de su empresa.
-            </p>
+            <p className="mt-4 text-body text-mut-d max-w-[560px]">{t.body}</p>
           </div>
           <div>
-            <Link href="#contacto" className="btn btn-primary w-full md:w-auto">
-              Contacte a un especialista
+            <Link href={href("/#contacto", lang)} className="btn btn-primary w-full md:w-auto">
+              {t.cta}
             </Link>
           </div>
         </div>

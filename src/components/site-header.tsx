@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { Isologo } from "@/components/isologo";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { whatsappUrl } from "@/config/site";
+import { getDictionary } from "@/i18n/dictionaries";
+import { href, type Locale } from "@/i18n/config";
 
-// Iconos inline (líneas). No usamos librería.
+// Iconos inline (líneas). Sin librería.
 function IconMenu() {
   return (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
@@ -28,29 +31,30 @@ function IconWhatsApp() {
   );
 }
 
-const NAV = [
-  { href: "/#nosotros", label: "Nosotros" },
-  { href: "/#servicios", label: "Servicios" },
-  { href: "/#blog", label: "Blog" },
-  { href: "/#contacto", label: "Contacto" },
-];
+export function SiteHeader({ lang }: { lang: Locale }) {
+  const t = getDictionary(lang).nav;
+  const nav = [
+    { href: href("/#nosotros", lang), label: t.about },
+    { href: href("/#servicios", lang), label: t.services },
+    { href: href("/#blog", lang), label: t.blog },
+    { href: href("/#contacto", lang), label: t.contact },
+  ];
 
-export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 surface-darker border-b border-line-d">
       <div className="container-page flex items-center justify-between gap-6 h-[72px] md:h-[88px]">
         <Link
-          href="/"
+          href={href("/", lang)}
           className="inline-flex items-center focus-visible:outline-offset-4"
-          aria-label="Ir al inicio"
+          aria-label={lang === "en" ? "Go to home" : "Ir al inicio"}
         >
           <Isologo variant="dark" className="h-8 md:h-9 w-auto" />
         </Link>
 
         {/* Nav desktop (lg+ para evitar overflow en tablet 768) */}
-        <nav aria-label="Principal" className="hidden lg:block">
+        <nav aria-label={t.about + " · " + t.services} className="hidden lg:block">
           <ul className="flex items-center gap-8">
-            {NAV.map((item) => (
+            {nav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
@@ -61,6 +65,9 @@ export function SiteHeader() {
               </li>
             ))}
             <li>
+              <LanguageSwitcher current={lang} />
+            </li>
+            <li>
               <a
                 href={whatsappUrl()}
                 target="_blank"
@@ -68,49 +75,52 @@ export function SiteHeader() {
                 className="btn btn-secondary-dark h-[40px] px-4"
               >
                 <IconWhatsApp />
-                <span>WhatsApp</span>
+                <span>{t.whatsapp}</span>
               </a>
             </li>
           </ul>
         </nav>
 
-        {/* Nav móvil/tablet con <details> nativo (sin JS) */}
-        <details className="lg:hidden group">
-          <summary
-            aria-label="Abrir menú"
-            className="list-none inline-flex items-center justify-center h-11 w-11 text-txt-d cursor-pointer marker:hidden [&::-webkit-details-marker]:hidden"
-          >
-            <span className="group-open:hidden"><IconMenu /></span>
-            <span className="hidden group-open:inline"><IconClose /></span>
-          </summary>
-          <div className="fixed inset-x-0 top-[72px] bg-navy-deep border-t border-line-d z-40">
-            <nav aria-label="Principal móvil" className="container-page py-4">
-              <ul className="flex flex-col divide-y divide-line-d">
-                {NAV.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="block py-4 font-sans uppercase text-eyebrow tracking-[0.16em] text-txt-d hover:text-gold-br"
+        {/* Bloque compacto para tablet/móvil: selector visible + hamburguesa */}
+        <div className="lg:hidden flex items-center gap-4">
+          <LanguageSwitcher current={lang} />
+          <details className="group">
+            <summary
+              aria-label={t.openMenu}
+              className="list-none inline-flex items-center justify-center h-11 w-11 text-txt-d cursor-pointer marker:hidden [&::-webkit-details-marker]:hidden"
+            >
+              <span className="group-open:hidden"><IconMenu /></span>
+              <span className="hidden group-open:inline"><IconClose /></span>
+            </summary>
+            <div className="fixed inset-x-0 top-[72px] bg-navy-deep border-t border-line-d z-40">
+              <nav aria-label={t.about} className="container-page py-4">
+                <ul className="flex flex-col divide-y divide-line-d">
+                  {nav.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className="block py-4 font-sans uppercase text-eyebrow tracking-[0.16em] text-txt-d hover:text-gold-br"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                  <li>
+                    <a
+                      href={whatsappUrl()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-secondary-dark w-full mt-4"
                     >
-                      {item.label}
-                    </Link>
+                      <IconWhatsApp />
+                      <span>{t.whatsapp}</span>
+                    </a>
                   </li>
-                ))}
-                <li>
-                  <a
-                    href={whatsappUrl()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-secondary-dark w-full mt-4"
-                  >
-                    <IconWhatsApp />
-                    <span>WhatsApp</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </details>
+                </ul>
+              </nav>
+            </div>
+          </details>
+        </div>
       </div>
     </header>
   );

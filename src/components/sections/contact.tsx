@@ -1,5 +1,7 @@
 import { site, whatsappUrl } from "@/config/site";
 import { ContactForm } from "@/components/contact-form";
+import { getDictionary } from "@/i18n/dictionaries";
+import type { Locale } from "@/i18n/config";
 
 function IconWhatsApp() {
   return (
@@ -12,7 +14,8 @@ function IconWhatsApp() {
   );
 }
 
-export function SectionContact() {
+export function SectionContact({ lang }: { lang: Locale }) {
+  const t = getDictionary(lang).contact;
   return (
     <section
       id="contacto"
@@ -24,23 +27,16 @@ export function SectionContact() {
           <div>
             <p className="eyebrow text-gold-ink">
               <span className="rule" aria-hidden="true" />
-              Contacto
+              {t.eyebrow}
             </p>
             <h2
               id="contact-title"
               className="mt-4 font-sans font-extrabold text-display-2 leading-[1.05] text-txt-l"
             >
-              HABLE CON UN ESPECIALISTA
+              {t.title}
             </h2>
-            <p className="mt-6 text-body text-txt-l max-w-sm">
-              Estamos disponibles para atender consultas relacionadas con proyectos de
-              lotería, juegos de azar y sorteos, así como asuntos tributarios, aduaneros
-              y administrativos.
-            </p>
-            <p className="mt-4 text-body-sm text-mut-l max-w-sm">
-              Complete el formulario y uno de nuestros especialistas se pondrá en contacto
-              con usted. Si lo prefiere, comuníquese directamente por WhatsApp.
-            </p>
+            <p className="mt-6 text-body text-txt-l max-w-sm">{t.body}</p>
+            <p className="mt-4 text-body-sm text-mut-l max-w-sm">{t.bodySecondary}</p>
 
             <a
               href={whatsappUrl()}
@@ -49,7 +45,7 @@ export function SectionContact() {
               className="btn btn-secondary-light mt-8"
             >
               <IconWhatsApp />
-              <span>Contactar por WhatsApp</span>
+              <span>{t.whatsappCta}</span>
             </a>
 
             <address className="not-italic mt-10 text-body-sm text-txt-l leading-relaxed">
@@ -66,7 +62,7 @@ export function SectionContact() {
           </div>
 
           <div>
-            <ContactForm />
+            <ContactForm lang={lang} />
           </div>
         </div>
       </div>
